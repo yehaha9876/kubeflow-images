@@ -41,7 +41,7 @@ RUN pip3 install --upgrade pip && \
 #RUN pip3 install --upgrade enum34
 #RUN pip3 install smartsheet-python-sdk
 
-#RUN pip3 install /tmp/kfp.tar.gz --upgrade 
+RUN pip3 install /tmp/kfp.tar.gz --upgrade 
 
 RUN pip3 install -U kubeflow-kale 
 RUN jupyter labextension install kubeflow-kale-labextension
