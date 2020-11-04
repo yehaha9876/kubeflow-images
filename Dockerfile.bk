@@ -1,0 +1,8 @@
+From harbor.gzky.com/kubeflow/tensorflow-2.1.0-notebook-cpu:1.0.0
+USER root
+ADD pip.conf ~/.pip/pip.conf
+
+RUN pip install kubeflow-kale
+USER jovyan
+
+RUN jupyter labextension install kubeflow-kale-launcher
