@@ -15,7 +15,7 @@
 # Use tensorflow-1.14.0 as a base image, allowing the user to
 # speficy if they want GPU support, by setting IMAGE_TYPE to "gpu".
 ARG IMAGE_TYPE="cpu"
-FROM gcr.io/kubeflow-images-public/tensorflow-1.14.0-notebook-${IMAGE_TYPE}:v0.7.0
+FROM gcr.io/kubeflow-images-public/tensorflow-2.1.0-notebook-${IMAGE_TYPE}:1.0.0
 
 USER root
 
@@ -31,22 +31,12 @@ ENV SHELL /bin/bash
 COPY bashrc /etc/bash.bashrc
 RUN echo "set background=dark" >> /etc/vim/vimrc.local
 
-COPY kfp.tar.gz /tmp/kfp.tar.gz
-
 # Install latest KFP SDK & Kale & JupyterLab Extension
 RUN pip3 install --upgrade pip && \
-    pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0"
-
-#RUN pip3 install --upgrade "setuptools==40.8.0"
-#RUN pip3 install --upgrade enum34
-#RUN pip3 install smartsheet-python-sdk
-
-RUN pip3 install /tmp/kfp.tar.gz --upgrade 
-
-RUN pip3 install -U kubeflow-kale 
-RUN jupyter labextension install kubeflow-kale-labextension
-
-RUN rm -f /tmp/kfp.tar.gz
+    pip3 install --upgrade "jupyterlab>=2.0.0,<3.0.0" && \
+    pip3 install --upgrade "kfp" && \
+    pip3 install -U kubeflow-kale && \
+    jupyter labextension install kubeflow-kale-labextension
 
 RUN echo "jovyan ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/jovyan
 WORKDIR /home/jovyan
